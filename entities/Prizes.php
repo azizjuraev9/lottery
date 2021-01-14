@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\Table;
  * @Entity
  * @Table(name="prizes")
  */
-class Prizes
+class Prizes extends BaseEntity
 {
 
     /**
@@ -33,6 +33,14 @@ class Prizes
 
     /** @Column(type="text", nullable=true) */
     private ?string $description = null;
+
+
+    /** @Column(type="integer", nullable=false) */
+    private ?int $quantity = null;
+
+
+    /** @Column(type="integer", nullable=false) */
+    private ?int $probability = null;
 
     /**
      * @return int|null
@@ -80,5 +88,37 @@ class Prizes
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param int|null $quantity
+     */
+    public function setQuantity(?int $quantity): void
+    {
+        $this->quantity = $quantity;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getProbability(): ?int
+    {
+        return $this->probability;
+    }
+
+    /**
+     * @param int|null $probability
+     */
+    public function setProbability(?int $probability): void
+    {
+        $this->probability = $probability;
     }
 }
