@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Entity
@@ -32,7 +33,11 @@ class User
     private ?string $email = null;
 
 
-    /** @Column(type="string", nullable=false) */
+    /**
+     * @Column(type="string", nullable=false)
+     * @Assert\Email()
+     * @Assert\Unique
+     */
     private ?string $password = null;
 
     /**
