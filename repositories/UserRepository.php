@@ -31,4 +31,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         self::$entityManager->persist($user);
         self::$entityManager->flush();
     }
+
+    public function getByToken(string $token): ?User
+    {
+        return self::$entityManager
+            ->getRepository(User::class)
+            ->findOneBy(['token' => $token]);
+    }
 }

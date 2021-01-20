@@ -29,16 +29,32 @@ class User
     private ?int $id = null;
 
 
-    /** @Column(type="string", nullable=false) */
+    /**
+     * @Column(type="string", nullable=false)
+     * @Assert\Email
+     * @Assert\Unique
+     */
     private ?string $email = null;
 
 
+    /** @Column(type="string", nullable=false) */
+    private ?string $password = null;
+
     /**
      * @Column(type="string", nullable=false)
-     * @Assert\Email()
      * @Assert\Unique
      */
-    private ?string $password = null;
+    private ?string $token = null;
+
+    /**
+     * @Column(type="datetime", nullable=false)
+     */
+    private ?string $token_expire = null;
+
+    /**
+     * @Column(type="boolean", nullable=false)
+     */
+    private ?string $is_admin = null;
 
     /**
      * @return int|null
@@ -86,6 +102,54 @@ class User
     public function setPassword(?string $password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string|null $token
+     */
+    public function setToken(?string $token): void
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTokenExpire(): ?string
+    {
+        return $this->token_expire;
+    }
+
+    /**
+     * @param string|null $token_expire
+     */
+    public function setTokenExpire(?string $token_expire): void
+    {
+        $this->token_expire = $token_expire;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIsAdmin(): ?string
+    {
+        return $this->is_admin;
+    }
+
+    /**
+     * @param string|null $is_admin
+     */
+    public function setIsAdmin(?string $is_admin): void
+    {
+        $this->is_admin = $is_admin;
     }
 
 }

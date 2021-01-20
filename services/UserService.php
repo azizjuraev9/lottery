@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Validation;
 class UserService
 {
 
+    const TOKEN_LIFETIME = 259200; //seconds
     const SESSION_UID_FIELD = 'USER_ID';
 
     private static ?User $user = null;
@@ -46,6 +47,21 @@ class UserService
             return false;
 
         if(!password_verify($password,$user->getPassword()))
+            return false;
+
+        $this->setUser($user);
+
+        return true;
+    }
+
+    public function loginByToken(string $token) : bool
+    {
+        $user = $this->userRepository->getByToken($token);
+
+        if(!$user)
+            return false;
+
+        if($user->getTokenExpire() > date('Y-m-d H:i:s'))
             return false;
 
         $this->setUser($user);
@@ -119,5 +135,12 @@ class UserService
              */
             $this->errors[$violation->getPropertyPath()] = $violation->getMessage();
         }
+    }
+
+    protected function generateToken() : string
+    {
+        $token = openssl_random_pseudo_bytes(16);
+        $token = bin2hex($token);
+        return $token;
     }
 }

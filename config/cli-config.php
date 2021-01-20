@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+$loader = require 'vendor/autoload.php';
 
 
 use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
@@ -13,6 +13,7 @@ use Doctrine\Migrations\Tools\Console\Command;
 // replace with file to your own project bootstrap
 require_once __DIR__ . '/doctrine.php';
 
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
 $config = new PhpFile(__DIR__ . '/migrations.php');
 
