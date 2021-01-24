@@ -4,6 +4,7 @@
 namespace app\services;
 
 
+use app\entities\Prizes;
 use app\repositories\PrizeRepositoryInterface;
 
 class PrizesService
@@ -16,10 +17,14 @@ class PrizesService
         $this->prizesRepository = $prizesRepository;
     }
 
-    public function getRandomPrize()
+    public function getRandomPrize() : ?Prizes
     {
         $prizes = $this->prizesRepository->getAllPrizes();
 
+        if( count($prizes) == 0 )
+        {
+            return null;
+        }
 
         $sum = 0;
         $rates = [];

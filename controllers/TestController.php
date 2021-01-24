@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 
+use app\repositories\PrizesRepository;
 use app\services\PrizesService;
 
 class TestController
@@ -10,7 +11,8 @@ class TestController
 
     public function __construct()
     {
-        $this->prizesService = new PrizesService();
+        $repo = new PrizesRepository();
+        $this->prizesService = new PrizesService($repo);
     }
 
     public function index($id = 99)

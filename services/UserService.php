@@ -29,8 +29,6 @@ class UserService
      */
     private SessionInterface $session;
 
-    private array $errors;
-
     public function __construct(
         UserRepositoryInterface $userRepository
     )
@@ -69,24 +67,18 @@ class UserService
         return true;
     }
 
-    public function register(string $email, string $password) : bool
+    public function register(array $data) : bool
     {
-        $validator = Validation::createValidatorBuilder()
-            ->enableAnnotationMapping()
-            ->getValidator();
+        $password = password_hash($data['password'],PASSWORD_DEFAULT);
+        $result = $this->userRepository->save([
+            'email' => $data['email'],
+            'password' => $password,
+            'token' => $this->generateToken(),
+            'token_expire' => date('Y-m-d H:i:s',time() + self::TOKEN_LIFETIME),
+            'is_admin' => false,
+        ]);
 
-        $violations = $validator->validate($this);
-
-        if($violations->count() > 0)
-        {
-            $this->setErrors($violations);
-            return false;
-        }
-
-        $password = password_hash($password,PASSWORD_DEFAULT);
-        $this->userRepository->save($email,$password);
-
-        return true;
+        return $result;
     }
 
     public function setUser(User $user): void
@@ -121,20 +113,6 @@ class UserService
     public function getErrors(): array
     {
         return $this->errors;
-    }
-
-    /**
-     * @param ConstraintViolationListInterface $violations
-     */
-    public function setErrors(ConstraintViolationListInterface $violations) : void
-    {
-        foreach ($violations as $violation)
-        {
-            /**
-             * @var ConstraintViolationInterface $violation
-             */
-            $this->errors[$violation->getPropertyPath()] = $violation->getMessage();
-        }
     }
 
     protected function generateToken() : string

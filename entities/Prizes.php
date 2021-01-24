@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\Table;
  * @Entity
  * @Table(name="prizes")
  */
-class Prizes extends BaseEntity
+class Prizes
 {
 
     /**
