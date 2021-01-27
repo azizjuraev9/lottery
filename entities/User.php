@@ -41,6 +41,16 @@ class User
     private ?string $password = null;
 
     /**
+     * @Column(type="integer")
+     */
+    private ?int $money = null;
+
+    /**
+     * @Column(type="integer")
+     */
+    private ?int $points = null;
+
+    /**
      * @Column(type="string", nullable=false)
      * @Assert\Unique
      */
@@ -150,6 +160,38 @@ class User
     public function setIsAdmin(?string $is_admin): void
     {
         $this->is_admin = $is_admin;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMoney(): ?int
+    {
+        return $this->money;
+    }
+
+    /**
+     * @param int|null $money
+     */
+    public function setMoney(?int $money): void
+    {
+        $this->money = $money;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    /**
+     * @param int|null $points
+     */
+    public function setPoints(?int $points): void
+    {
+        $this->points = $points;
     }
 
 }

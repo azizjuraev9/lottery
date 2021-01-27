@@ -17,4 +17,6 @@ interface UserRepositoryInterface
 
     public function save(array $data): bool;
 
+    public function resetToken(User $user, string $token, string $expire): bool;
+
 }

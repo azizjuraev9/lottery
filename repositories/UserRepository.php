@@ -74,4 +74,25 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             $this->errors[$violation->getPropertyPath()] = $violation->getMessage();
         }
     }
+
+    public function resetToken(User $user, string $token, string $expire): bool
+    {
+        $user->setToken($token);
+        $user->setTokenExpire($expire);
+        $validator = Validation::createValidatorBuilder()
+            ->enableAnnotationMapping()
+            ->getValidator();
+
+        $violations = $validator->validate($user);
+
+        if($violations->count() > 0)
+        {
+            $this->setErrors($violations);
+            return false;
+        }
+
+        self::$entityManager->persist($user);
+        self::$entityManager->flush();
+        return true;
+    }
 }
